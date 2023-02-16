@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<DOCTIPE html>
+<html>
+<head>
+	<title>自由解答式のクイズサイト</title>
+	<style>
+		/* スタイルシート */
+		body {
+			font-family: Arial, sans-serif;
+		}
+		h1 {
+			text-align: center;
+		}
+		#question {
+			float: left;
+			width: 50%;
+		}
+		#answer {
+			float: right;
+			width: 50%;
+		}
+	</style>
+</head>
+<body>
+	<h1>自由解答式のクイズ</h1>
+	<div id="question"></div>
+	<div id="answer">
+		<label for="answer-input">答えを入力してください：</label>
+		<input type="text" id="answer-input">
+		<button id="submit-answer">答えを送信</button>
+		<p id="feedback"></p>
+	</div>
+
+	<script src="quiz.js"></script>
+</body>
+</html>
