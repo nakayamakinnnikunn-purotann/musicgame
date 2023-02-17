@@ -2,7 +2,7 @@
 const initialNotePosition = -100;
 
 // ノーツのスピード
-const noteSpeed = 1;
+const noteSpeed = 0.1;
 
 // スコア
 let score = 0;
