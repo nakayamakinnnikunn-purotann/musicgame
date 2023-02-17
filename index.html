@@ -1,82 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>自由解答式クイズ</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-		}
-		
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			height: 100vh;
-		}
-
-		h1 {
-			text-align: center;
-		}
-
-		form {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 2rem;
-		}
-
-		label {
-			margin-bottom: 0.5rem;
-		}
-
-		input[type="text"] {
-			padding: 0.5rem;
-			margin-bottom: 1rem;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			width: 20rem;
-			font-size: 1rem;
-			text-align: center;
-		}
-
-		button {
-			padding: 0.5rem 1rem;
-			background-color: #007bff;
-			color: #fff;
-			border: none;
-			border-radius: 5px;
-			font-size: 1rem;
-			cursor: pointer;
-		}
-
-		.feedback {
-			margin-top: 1rem;
-			font-size: 1.2rem;
-			font-weight: bold;
-			text-align: center;
-		}
-	</style>
-</head>
-<body>
-	<div class="container">
-		<h1>自由解答式クイズ</h1>
-		<div id="question-container">
-			<h2 id="question"></h2>
-			<form id="answer-form">
-				<label for="answer-input">回答:</label>
-				<input type="text" id="answer-input" name="answer-input" required>
-				<button type="submit" id="submit-btn">回答する</button>
-			</form>
-			<div id="feedback-container">
-				<p id="feedback"></p>
-				<button type="button" id="next-btn" style="display: none;">次の問題へ</button>
-				<button type="button" id="retry-btn" style="display: none;">再挑戦</button>
-			</div>
-		</div>
-	</div>
-
-	<script src="script.js"></script>
-</body>
+  <head>
+    <title>Rhythm Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="game-screen">
+        <h1>Rhythm Game</h1>
+        <div class="notes-container"></div>
+        <div class="keys-container">
+          <div class="key left-key">
+            <span>←</span>
+          </div>
+          <div class="key up-key">
+            <span>↑</span>
+          </div>
+          <div class="key down-key">
+            <span>↓</span>
+          </div>
+          <div class="key right-key">
+            <span>→</span>
+          </div>
+        </div>
+        <div class="score-container">
+          <span>Score:</span>
+          <span class="score">0</span>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
