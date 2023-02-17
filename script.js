@@ -1,93 +1,81 @@
-// 問題と答えのリスト
-var quiz = [
-    {
-        question: "日本の首都は？",
-        answer: "東京"
-    },
-    {
-        question: "アメリカ合衆国の首都は？",
-        answer: "ワシントンD.C."
-    },
-    {
-        question: "日本で最も高い山は？",
-        answer: "富士山"
-    },
-    {
-        question: "世界で最も人口が多い国は？",
-        answer: "中国"
-    },
-    {
-        question: "世界で最も広い国は？",
-        answer: "ロシア"
+// ノートの初期位置
+const initialNotePosition = -100;
+
+// ノーツのスピード
+const noteSpeed = 1;
+
+// スコア
+let score = 0;
+
+// キーコード
+const keyCodes = {
+  65: "red", // A
+  83: "yellow", // S
+  68: "blue", // D
+  70: "green" // F
+};
+
+// キーイベントの追加
+document.addEventListener("keydown", event => {
+  if (event.keyCode in keyCodes) {
+    const key = document.querySelector(`.key.${keyCodes[event.keyCode]}`);
+    key.classList.add("active");
+    checkNoteCollision(keyCodes[event.keyCode]);
+  }
+});
+
+document.addEventListener("keyup", event => {
+  if (event.keyCode in keyCodes) {
+    const key = document.querySelector(`.key.${keyCodes[event.keyCode]}`);
+    key.classList.remove("active");
+  }
+});
+
+// ノートの生成
+function createNote() {
+  const colors = Object.values(keyCodes);
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  const note = document.createElement("div");
+  note.classList.add("note", randomColor);
+  note.style.left = Math.floor(Math.random() * 520) + "px";
+  document.querySelector(".notes-container").appendChild(note);
+}
+
+// ノートの衝突判定
+function checkNoteCollision(color) {
+  const note = document.querySelector(`.note.${color}`);
+  if (note) {
+    const notePosition = note.getBoundingClientRect().top;
+    const keyPosition = document.querySelector(`.key.${color}`).getBoundingClientRect().bottom;
+    const noteWidth = note.getBoundingClientRect().width;
+    if (notePosition < keyPosition && notePosition > keyPosition - noteWidth) {
+      note.remove();
+      score++;
+      updateScore();
     }
-];
-
-// 現在の問題のインデックスを保持する変数
-var currentQuestion = 0;
-
-// HTML要素を取得
-var questionEl = document.getElementById("question");
-var answerInputEl = document.getElementById("answer-input");
-var submitBtn = document.getElementById("submit-answer");
-var feedbackEl = document.getElementById("feedback");
-var startFromBeginningBtn = document.getElementById("start-from-beginning");
-var startFromMiddleBtn = document.getElementById("start-from-middle");
-
-// Web Storageからデータを読み込む
-var storedIndex = localStorage.getItem("quizIndex");
-if (storedIndex !== null) {
-    currentQuestion = parseInt(storedIndex);
-} else {
-    // Web Storageにデータがない場合は、最初の問題から始める
-    displayQuestion();
+  }
 }
 
-// 最初の問題を表示する関数
-function displayQuestion() {
-    questionEl.innerHTML = quiz[currentQuestion].question;
+// スコアの更新
+function updateScore() {
+  const scoreElement = document.querySelector(".score-container span:last-child");
+  scoreElement.textContent = score;
 }
 
-// 答えをチェックして、フィードバックを表示する関数
-function checkAnswer() {
-    var userAnswer = answerInputEl.value.toLowerCase().trim();
-    var correctAnswer = quiz[currentQuestion].answer.toLowerCase().trim();
-
-    if (userAnswer === correctAnswer) {
-        feedbackEl.innerHTML = "正解！";
-        // 次の問題に進む
-        currentQuestion++;
-        if (currentQuestion < quiz.length) {
-            displayQuestion();
-        } else {
-            // 全ての問題を解いた場合は、Web Storageを削除して最初から始める
-            localStorage.removeItem("quizIndex");
-            startFromBeginningBtn.style.display = "inline-block";
-            startFromMiddleBtn.style.display = "none";
-            questionEl.innerHTML = "おめでとう！クイズをクリアしました。";
-        }
+// メインループ
+function loop() {
+  createNote();
+  const notes = document.querySelectorAll(".note");
+  notes.forEach(note => {
+    const notePosition = note.getBoundingClientRect().top;
+    if (notePosition > 500) {
+      note.remove();
     } else {
-        feedbackEl.innerHTML = "不正解。もう一度解いてください。";
+      note.style.top = notePosition + noteSpeed + "px";
     }
-
-    // Web Storageに現在の問題のインデックスを保存する
-    localStorage.setItem("quizIndex", currentQuestion);
+  });
+  requestAnimationFrame(loop);
 }
 
-// 最初から始めるボタンがクリックされたときの処理
-startFromBeginningBtn.onclick = function() {
-    currentQuestion = 0;
-    localStorage.setItem("quizIndex", currentQuestion);
-    displayQuestion();
-    startFromBeginningBtn.style.display = "none";
-    startFromMiddleBtn.style.display = "inline-block";
-};
-
-
-// 途中から始めるボタンがクリックされたときの処理
-startFromMiddleBtn.onclick = function() {
-    currentQuestion = 0;
-    localStorage.setItem("quizIndex", currentQuestion);
-    displayQuestion();
-    startFromBeginningBtn.style.display = "none";
-    startFromMiddleBtn.style.display = "inline-block";
-};
+// ゲーム開始
+loop();
