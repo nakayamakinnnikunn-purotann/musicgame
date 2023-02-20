@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Rhythm Game</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Music Game</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div class="game-container">
-      <div class="game-screen">
-        <h1>Rhythm Game</h1>
-        <div class="notes-container"></div>
-        <div class="keys-container">
-          <div class="key left-key">
-            <span>←</span>
-          </div>
-          <div class="key up-key">
-            <span>↑</span>
-          </div>
-          <div class="key down-key">
-            <span>↓</span>
-          </div>
-          <div class="key right-key">
-            <span>→</span>
-          </div>
-        </div>
-        <div class="score-container">
-          <span>Score:</span>
-          <span class="score">0</span>
-        </div>
-      </div>
+    <div id="game-container">
+      <div class="note-container" data-note="0"></div>
+      <div class="note-container" data-note="1"></div>
+      <div class="note-container" data-note="2"></div>
+      <div class="note-container" data-note="3"></div>
     </div>
     <script src="script.js"></script>
   </body>
